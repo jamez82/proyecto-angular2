@@ -1,0 +1,67 @@
+﻿<div class="col-md-6 col-md-offset-3">
+        
+    <h1>HOLA {{currentUser.firstName}}!</h1>
+    <p>Bienvenido a Sisne!!</p>
+    <h3>Usuarios Registrados:</h3>
+    <ul>
+        <li *ngFor="let user of users">
+            {{user.username}} ({{user.firstName}} {{user.lastName}})
+            - <a (click)="deleteUser(user.id)"></a>
+        </li>
+    </ul>
+    <p><a [routerLink]="['/login']">cerrar </a></p>
+    <hr>
+    <div class="panel panel-primary"></div>
+      <div class="panel-heading">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+          <input type="text" class="form-control" placeholder="Buscare Empleado" ng-model="buscar.materno">
+        </div>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>
+              <a href="" ng-click="ordenarPor('nombre')">
+                Nombre/s
+              </a>
+              <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-nombre')"></span>
+            </th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Primer dia de trabajo</th>
+            <th>Telefono</th>
+            <th>Salario</th>
+            <th>Bono</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="empleado in empleados | orderBy:ordenSeleccionado | filter:buscar">
+            <td>{{empleado.nombre}}</td>
+            <td>{{empleado.paterno | uppercase}}</td>
+            <td>{{empleado.materno | lowercase}}</td>
+            <td>{{empleado.primerDia | date:'fullDate'}} a las {{empleado.primerDia | date:'h:mma'}}</td>
+            <td>{{empleado.telefono}}</td>
+            <td>{{empleado.salario | currency}}</td>
+            <td>% {{empleado.bono | number:2}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr>
+    <span>{{restantes()}} de {{tareas.length}}</span>
+    [ <a class="text-danger" href="" ng-click="eliminar()">eliminar</a> ]
+    <ul class="unstyled">
+      <li ng-repeat="tarea in tareas">
+        <input type="checkbox" ng-model="tarea.hecho">
+        <span class="hecho-{{tarea.hecho}}">{{tarea.texto}}</span>
+      </li>
+    </ul>
+    <form ng-submit="agregarTarea()">
+      <input type="texto" size="30" placeholder="Agregar una nueva tarea"
+             ng-model="textoNuevaTarea">
+      <button class="btn btn-primary" type="submit">Agregar</button>
+    </form>
+    
